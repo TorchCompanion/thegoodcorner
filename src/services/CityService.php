@@ -28,11 +28,13 @@ class CityService
     {
         $resp = $this->client->request('GET', 'https://api.gouv.fr/documentation/api_carto_codes_postaux?code=' . $postalCode);
 
-        if($resp['code'] === $postalCode && $resp['nom'] === $city) {
-            $response = $this->client->request('GET', 'https://api.gouv.fr/documentation/api-geo');
+        if($resp['codePostal'] === $postalCode && $resp['nomCommune'] === $city) {
+            $response = $this->client->request('GET', 'https://api.gouv.fr/documentation/api-geo?code=' . $resp['codeCommune']);
             return $response->toArray();
         }
-        return $resp[0];
+        else {
+            return $resp[0];
+        }
         // $response = $this->client->request('GET', 'https://geo.api.gouv.fr/communes?nom=' . $city . '&fields=nom,code,codesPostaux,centre,codeDepartement,codeRegion,population&format=json&geometry=centre');
         // on check si le nom de la ville correspond a un des element de la reponse
         // de la premiére API, si non on prend le premier element du tableau
