@@ -24,18 +24,15 @@ class DefaultController extends AbstractController
     #[Route('/annonce/{id}', name: 'ads.display.simple', requirements: ['id' => '^\d+'])]
     public function displaySimple(
         ExampleService $exampleService,
-        CityService $cityService,
         AdService $adService,
         int $id
     ): Response {
         $seller = $exampleService->getSeller();
-        $cityData = $cityService->getCity($seller['cp'], $seller['city']);
         $advertisement = $adService->getAds();
 
         return $this->render('default/ad.display.html.twig', [
             'controller_name' => 'DefaultController',
             'seller' => $seller,
-            'city_data' => $cityData,
             'ad1' => $advertisement[0],
             'ad2' => $advertisement[1],
         ]);
