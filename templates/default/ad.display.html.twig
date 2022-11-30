@@ -5,46 +5,60 @@
 {% block body %}
 
     <div class="container">
-        <h1>Je suis une annonce</h1>
         <div class="row">
-            <div class="col-6">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex
-                ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat
-                nulla pariatur.
+            <div class="col-12 text-center">
+                <h4>{{ ad1.title }}</h4>
+                <p>{{ ad1.texte }}</p>
             </div>
+            <div class="col-3">
+                <div class="h5">Nos partenaires</div>
+                <img src="{{ ad2.image }}" alt="{{ ad2.title }}" class="col-12" style="max-height : 100%">
+            </div>
+
             <div class="col-6">
-                <div class="h4">Vendeur</div>
-                <div class="subtitle">
-                    {{ seller.name }}
+                <h1>Je suis une annonce</h1>
+                <div>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat
+                    nulla pariatur.
                 </div>
-                <div class="contact">
-                    <div class="phone">
-                        <a href="tel:{{ seller.tel }}">{{ seller.tel }}</a>
+                <div class="col-5">
+                    <div class="h4">Vendeur</div>
+                    <div class="subtitle">
+                        {{ seller.name }}
                     </div>
-                    <div class="address">
-                        {{ seller.cp }} {{ seller.city }}
+                    <div class="contact">
+                        <div class="phone">
+                            <a href="tel:{{ seller.tel }}">{{ seller.tel }}</a>
+                        </div>
+                        <div class="address">
+                            {{ seller.cp }} {{ seller.city }}
+                        </div>
+                    </div>
+                    <div class="citydata">
+                        <div class="city">
+                            <p>Nom : {{ city_data.city }}</p>
+                        </div>
+                        <div class="cp">
+                            <p>Code postal : {{ city_data.cp }}</p>
+                        </div>
+                        <div class="lat">
+                            <p>Lattitude : {{ city_data.lat }}</p>
+                        </div>
+                        <div class="lon">
+                            <p>Longitude : {{ city_data.lon }}</p>
+                        </div>
+                        <div class="departement">
+                            <p>Departement : {{ city_data.departement }}</p>
+                        </div>
                     </div>
                 </div>
-                <div class="citydata">
-                    <div class="city">
-                        <p>Nom : {{ city_data.city }}</p>
-                    </div>
-                    <div class="cp">
-                        <p>Code postal : {{ city_data.cp }}</p>
-                    </div>
-                    <div class="lat">
-                        <p>Lattitude : {{ city_data.lat }}</p>
-                    </div>
-                    <div class="lon">
-                        <p>Longitude : {{ city_data.lon }}</p>
-                    </div>
-                    <div class="departement">
-                        <p>Departement : {{ city_data.departement }}</p>
-                    </div>
-                </div>
+            </div>
+            <div class="col-3">
+                <div class="h5">Nos partenaires</div>
+                <img src="{{ ad2.image }}" alt="{{ ad2.title }}" class="col-12" style="max-height : 100%">
             </div>
         </div>
     </div>
