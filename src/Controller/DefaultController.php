@@ -15,7 +15,6 @@ class DefaultController extends AbstractController
     #[Route('/', name: 'app.home')]
     public function index(): Response
     {
-
         return $this->render('default/index.html.twig', [
             'controller_name' => 'DefaultController',
         ]);
@@ -24,9 +23,10 @@ class DefaultController extends AbstractController
     #[Route('/annonce/{id}', name: 'ads.display.simple', requirements: ['id' => '^\d+'])]
     public function displaySimple(
         ExampleService $exampleService,
-        AdService $adService,
-        int $id
-    ): Response {
+        AdService      $adService,
+        int            $id
+    ): Response
+    {
         $seller = $exampleService->getSeller();
         $advertisement = $adService->getAds();
 

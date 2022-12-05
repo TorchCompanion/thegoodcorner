@@ -11,7 +11,8 @@ class ExampleService
 
     public function __construct(
         CityService $cityService
-    ) {
+    )
+    {
         $this->cityService = $cityService;
     }
 

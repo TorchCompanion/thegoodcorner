@@ -4,7 +4,7 @@ namespace App\services;
 
 class AdService
 {
-    public function getAds() : array
+    public function getAds(): array
     {
         $ads = [
             [
