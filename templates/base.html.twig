@@ -10,15 +10,17 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
     {% block stylesheets %}
-        {{ encore_entry_link_tags('app') }}
+        {#        {{ encore_entry_link_tags('app') }} #}
     {% endblock %}
 
     {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
+        {#        {{ encore_entry_script_tags('app') }} #}
     {% endblock %}
 </head>
 
 <body class="col-12 row">
+{% include 'inc/navbar.html.twig' %}
+
 {% block body %}{% endblock %}
 
 

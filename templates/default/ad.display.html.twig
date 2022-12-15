@@ -17,22 +17,22 @@
             </div>
 
             <div class="col-6">
-                <h1>Je suis une annonce</h1>
+                <h1>{{ annonce.title|capitalize }}</h1>
+                <h3>{{ annonce.price|number_format(2,',', ' ') }} €</h3>
                 <div>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat
-                    nulla pariatur.
+                    {{ annonce.description|raw }}
                 </div>
-                <div class="col-5">
+                <div class="col-6">
+                    <div class="w-100 mb-4">
+                        posté le <b>{{ annonce.postedDate|date('d/M/Y') }}</b>
+                    </div>
                     <div class="h4">Vendeur</div>
                     <div class="subtitle">
-                        {{ seller.name }}
+                        {{ annonce.owner.username }}
                     </div>
                     <div class="contact">
                         <div class="phone">
-                            <a href="tel:{{ seller.tel }}">{{ seller.tel }}</a>
+                            <a href="tel:{{ annonce.owner.tel }}">{{ annonce.owner.tel }}</a>
                         </div>
                         <div class="address">
                             {{ seller.cp }} {{ seller.city }}

@@ -22,6 +22,8 @@ class UserAddress
     #[ORM\Column(length: 255)]
     private ?string $city = null;
 
+    private ?string $country = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,5 +63,21 @@ class UserAddress
         $this->city = $city;
 
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param string|null $country
+     */
+    public function setCountry(?string $country): void
+    {
+        $this->country = $country;
     }
 }
