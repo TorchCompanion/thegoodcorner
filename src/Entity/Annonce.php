@@ -50,7 +50,9 @@ class Annonce
 
     public function __construct()
     {
+        $this->rating = 0;
         $this->pictures = new ArrayCollection();
+        $this->isFavourite = false;
     }
 
     public function getId(): ?int

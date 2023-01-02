@@ -112,6 +112,7 @@ class DefaultController extends AbstractController
             'seller' => $seller,
             'ad1' => $advertisement[0],
             'ad2' => $advertisement[1],
+            'annonce' => $annonce,
         ]);
     }
 

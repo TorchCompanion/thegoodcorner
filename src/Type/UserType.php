@@ -49,7 +49,7 @@ class UserType extends AbstractType
                 'required' => false,
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Post annonce',
+                'label' => 'Create account',
                 'attr' => ['class' => 'btn btn-primary'],
             ]);
     }

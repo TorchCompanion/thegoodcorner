@@ -28,11 +28,11 @@
                     </div>
                     <div class="h4">Vendeur</div>
                     <div class="subtitle">
-                        {{ annonce.owner.username }}
+                        {{ annonce.owner.name }} {{ annonce.owner.lastname }}
                     </div>
                     <div class="contact">
                         <div class="phone">
-                            <a href="tel:{{ annonce.owner.tel }}">{{ annonce.owner.tel }}</a>
+                            <a href="tel:{{ annonce.owner.phoneNumber }}">{{ annonce.owner.phoneNumber }}</a>
                         </div>
                         <div class="address">
                             {{ seller.cp }} {{ seller.city }}
