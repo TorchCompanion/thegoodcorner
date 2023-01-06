@@ -35,7 +35,7 @@ class Annonce
     #[ORM\OneToMany(mappedBy: 'annonce', targetEntity: AnnoncePicture::class)]
     private Collection $pictures;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: '0')]
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: '2')]
     private ?string $price = null;
 
     #[ORM\Column(type: Types::TEXT)]
