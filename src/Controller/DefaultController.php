@@ -5,7 +5,8 @@ namespace App\Controller;
 use App\Entity\Annonce;
 use App\Entity\User;
 use App\services\AdService;
-use App\services\CityService;
+use App\services\AnnonceService;
+use App\services\CategoryService;
 use App\services\ExampleService;
 use App\Type\AnnonceType;
 use App\Type\UserType;
@@ -22,12 +23,66 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 class DefaultController extends AbstractController
 {
     #[Route('/', name: 'app.home')]
-    public function index(): Response
+    #[Route('/page/{page}', name: 'app.home.page')]
+    public function index(
+        Request         $request,
+        AnnonceService  $annonceService,
+        CategoryService $categoryService,
+        int             $page = 1
+    ): Response
     {
+        //$page = (int)$request->get('page', 1);
 
+        $limit = (int)$request->get('limit', 5);
+
+        $filters = [];
+
+        if ($request->get('query') !== null) {
+            $filters['query'] = $request->get('query');
+        }
+
+        if ($request->get('categories') !== null && is_array($request->get('categories'))) {
+
+            $filters['in_categories'] = $request->get('categories');
+        }
+
+        if ($request->get('price_sup') !== null) {
+            $filters['price_sup'] = (int)$request->get('price_sup');
+        }
+
+        if ($request->get('price_inf') !== null) {
+            $filters['price_inf'] = (int)$request->get('price_inf');
+        }
+
+        $order = [];
+        $allowedOrder = ['price', 'title', 'postedDate', 'rating'];
+        if ($request->get('order') !== null && str_contains($request->get('order'), ',')) {
+            $o_ = explode(',', $request->get('order'));
+            if (in_array($o_[0], $allowedOrder, true)) {
+                $order[$o_[0]] = strtoupper($o_[1]);
+            }
+        }
+
+        try {
+            $annonces = $annonceService->getAnnonces($filters, $order, $page, $limit);
+        } catch (\Throwable $e) {
+            if ($e->getCode() === 10) {
+                // page does not exists
+                throw $this->createNotFoundException('La page n\'existe pas !');
+            }
+            $annonces = [
+                'results' => [],
+                'count' => 0,
+                'totalPages' => 1,
+                'error' => $e->getMessage(),
+            ];
+        }
         return $this->render('default/index.html.twig', [
             'controller_name' => 'DefaultController',
-
+            'annonceQuery' => $annonces,
+            'queryParams' => http_build_query($_GET),
+            'actualPage' => $page,
+            'categories' => $categoryService->getAllCategories(),
         ]);
     }
 
@@ -83,7 +138,7 @@ class DefaultController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($annonce);
             $em->flush();
-            $this->redirectToRoute('app.home');
+            return $this->redirectToRoute('app.home');
         }
 
         return $this->render('default/add.annonce.html.twig', [

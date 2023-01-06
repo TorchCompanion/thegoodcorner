@@ -23,7 +23,7 @@ class Annonce
     private ?string $description = null;
 
     #[ORM\Column]
-    private ?int $rating = null;
+    private ?int $rating;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -41,8 +41,6 @@ class Annonce
     #[ORM\Column(type: Types::TEXT)]
     private ?string $address = null;
 
-    #[ORM\Column]
-    private ?bool $isFavourite = null;
 
     #[ORM\ManyToOne(inversedBy: 'annonces')]
     #[ORM\JoinColumn(nullable: false)]
@@ -52,7 +50,6 @@ class Annonce
     {
         $this->rating = 0;
         $this->pictures = new ArrayCollection();
-        $this->isFavourite = false;
     }
 
     public function getId(): ?int
@@ -170,18 +167,6 @@ class Annonce
     public function setAddress(string $address): self
     {
         $this->address = $address;
-
-        return $this;
-    }
-
-    public function isIsFavourite(): ?bool
-    {
-        return $this->isFavourite;
-    }
-
-    public function setIsFavourite(bool $isFavourite): self
-    {
-        $this->isFavourite = $isFavourite;
 
         return $this;
     }

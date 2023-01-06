@@ -17,7 +17,7 @@ class AnnonceCategory
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $value = null;
+    private ?string $slug = null;
 
     public function getId(): ?int
     {
@@ -36,14 +36,14 @@ class AnnonceCategory
         return $this;
     }
 
-    public function getValue(): ?string
+    public function getSlug(): ?string
     {
-        return $this->value;
+        return $this->slug;
     }
 
-    public function setValue(string $value): self
+    public function setSlug(string $slug): self
     {
-        $this->value = $value;
+        $this->slug = $slug;
 
         return $this;
     }
