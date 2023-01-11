@@ -6,6 +6,7 @@ use App\Entity\AnnonceCategory;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -44,9 +45,10 @@ class AnnonceType extends AbstractType
                 'class' => AnnonceCategory::class,
                 'choice_label' => 'name',
             ])
-            ->add('pictures', CollectionType::class, [
+            ->add('pictures', FileType::class, [
                 'label' => 'Annonce pictures',
-                'attr' => ['class' => 'form-control'],
+                'attr' => array('accept' => 'image/*'),
+                'multiple' => true,
                 'label_attr' => ['class' => 'form-label'],
             ])
             ->add('submit', SubmitType::class, [

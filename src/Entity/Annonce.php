@@ -32,9 +32,6 @@ class Annonce
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $postedDate = null;
 
-    #[ORM\OneToMany(mappedBy: 'annonce', targetEntity: AnnoncePicture::class)]
-    private Collection $pictures;
-
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: '2')]
     private ?string $price = null;
 
@@ -45,10 +42,13 @@ class Annonce
     #[ORM\JoinColumn(nullable: false)]
     private ?User $owner = null;
 
+    #[ORM\OneToMany(mappedBy: 'annonce', targetEntity: AnnoncePicture::class)]
+    private Collection $Pictures;
+
     public function __construct()
     {
         $this->rating = 0;
-        $this->pictures = new ArrayCollection();
+        $this->Pictures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -116,35 +116,6 @@ class Annonce
         return $this;
     }
 
-    /**
-     * @return Collection<int, AnnoncePicture>
-     */
-    public function getPictures(): Collection
-    {
-        return $this->pictures;
-    }
-
-    public function addPicture(AnnoncePicture $picture): self
-    {
-        if (!$this->pictures->contains($picture)) {
-            $this->pictures->add($picture);
-            $picture->setAnnonce($this);
-        }
-
-        return $this;
-    }
-
-    public function removePicture(AnnoncePicture $picture): self
-    {
-        if ($this->pictures->removeElement($picture)) {
-            // set the owning side to null (unless already changed)
-            if ($picture->getAnnonce() === $this) {
-                $picture->setAnnonce(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getPrice(): ?string
     {
@@ -178,6 +149,36 @@ class Annonce
     public function setOwner(?User $owner): self
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AnnoncePicture>
+     */
+    public function getPictures(): Collection
+    {
+        return $this->Pictures;
+    }
+
+    public function addPicture(AnnoncePicture $picture): self
+    {
+        if (!$this->Pictures->contains($picture)) {
+            $this->Pictures->add($picture);
+            $picture->setAnnonce($this);
+        }
+
+        return $this;
+    }
+
+    public function removePicture(AnnoncePicture $picture): self
+    {
+        if ($this->Pictures->removeElement($picture)) {
+            // set the owning side to null (unless already changed)
+            if ($picture->getAnnonce() === $this) {
+                $picture->setAnnonce(null);
+            }
+        }
 
         return $this;
     }

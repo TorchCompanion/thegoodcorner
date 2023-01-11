@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
+use App\Entity\AnnoncePicture;
 use App\Entity\User;
 use App\services\AdService;
 use App\services\AnnonceService;
@@ -18,6 +19,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
 class DefaultController extends AbstractController
@@ -135,6 +138,9 @@ class DefaultController extends AbstractController
 
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
+        $picture = new AnnoncePicture(
+            ''
+        );
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($annonce);
             $em->flush();

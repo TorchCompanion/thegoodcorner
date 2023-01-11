@@ -17,18 +17,18 @@ TODO -
 8-) afficher listing annonce where a.owner === $userProfile
 
 ------------------------------------------------------------------------
+CONTROLLER :
+----------
+
+- ProfileController
+    - Form adresse
+    - Form user
+    - Display user
+
 ENTITE :
 --------
 
 - Préparer entité Cart et AnnoncePicture (possibilité bug)
-- Creer ProfilePicture
-    - id
-    - absolutePath
-    - webPath
-    - filename
-- Ajouter attribut User
-    - ProfilePicture ?ProfilPicture
-    - OldProfilePicture ArrayCollection
 
 FORMULAIRE :
 ------------
