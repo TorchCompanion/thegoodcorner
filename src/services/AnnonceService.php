@@ -61,6 +61,9 @@ class AnnonceService
                 ->setParameter('priceinf', $filters['price_inf']);
         }
 
+        if (isset($order['title'])) {
+            $qb->orderBy('a.title', $order['title']);
+        }
         if (isset($order['price'])) {
             $qb->orderBy('a.price', $order['price']);
         }
@@ -96,7 +99,6 @@ class AnnonceService
             'count' => $total,
             'page' => $page,
             'limit' => $limit,
-            'sql' => $qb->getQuery()->getSQL(),
             'totalPages' => $totalPages,
         ];
     }

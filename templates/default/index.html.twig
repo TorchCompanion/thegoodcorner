@@ -67,6 +67,8 @@
                     <select name="order"
                             class="form-select" id="order">
                         <option value="">Par id</option>
+                        <option value="title,asc">Par nom (A-Z)</option>
+                        <option value="title,desc">Par nom (Z-A)</option>
                         <option {% if app.request.get('order', '') == 'price,asc' %} selected {% endif %}
                                 value="price,asc">Du moins cher au plus cher
                         </option>

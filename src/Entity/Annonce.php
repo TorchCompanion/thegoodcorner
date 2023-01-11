@@ -41,7 +41,6 @@ class Annonce
     #[ORM\Column(type: Types::TEXT)]
     private ?string $address = null;
 
-
     #[ORM\ManyToOne(inversedBy: 'annonces')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $owner = null;

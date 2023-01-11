@@ -35,24 +35,7 @@
                             <a href="tel:{{ annonce.owner.phoneNumber }}">{{ annonce.owner.phoneNumber }}</a>
                         </div>
                         <div class="address">
-                            {{ seller.cp }} {{ seller.city }}
-                        </div>
-                    </div>
-                    <div class="citydata">
-                        <div class="city">
-                            <p>Nom : {{ seller.city_data.city }}</p>
-                        </div>
-                        <div class="cp">
-                            <p>Code postal : {{ seller.city_data.cp }}</p>
-                        </div>
-                        <div class="lat">
-                            <p>Lattitude : {{ seller.city_data.lat }}</p>
-                        </div>
-                        <div class="lon">
-                            <p>Longitude : {{ seller.city_data.lon }}</p>
-                        </div>
-                        <div class="departement">
-                            <p>Departement : {{ seller.city_data.departement }}</p>
+                            {{ seller.cp }} {{ seller.city }}, {{ seller.city_data.departement }}
                         </div>
                     </div>
                 </div>

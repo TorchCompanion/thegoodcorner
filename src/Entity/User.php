@@ -54,10 +54,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private array $roles = [];
 
+    #[ORM\ManyToOne]
+    private ?ProfilePicture $ProfilePicture = null;
+
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: OldProfilePicture::class)]
+    private Collection $oldProfilePictures;
+
     public function __construct()
     {
         $this->salt = crc32(uniqid('', true));
         $this->annonces = new ArrayCollection();
+        $this->oldProfilePictures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -232,5 +239,47 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUserIdentifier(): string
     {
         return $this->email;
+    }
+
+    public function getProfilePicture(): ?ProfilePicture
+    {
+        return $this->ProfilePicture;
+    }
+
+    public function setProfilePicture(?ProfilePicture $ProfilePicture): self
+    {
+        $this->ProfilePicture = $ProfilePicture;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OldProfilePicture>
+     */
+    public function getOldProfilePictures(): Collection
+    {
+        return $this->oldProfilePictures;
+    }
+
+    public function addOldProfilePicture(OldProfilePicture $oldProfilePicture): self
+    {
+        if (!$this->oldProfilePictures->contains($oldProfilePicture)) {
+            $this->oldProfilePictures->add($oldProfilePicture);
+            $oldProfilePicture->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOldProfilePicture(OldProfilePicture $oldProfilePicture): self
+    {
+        if ($this->oldProfilePictures->removeElement($oldProfilePicture)) {
+            // set the owning side to null (unless already changed)
+            if ($oldProfilePicture->getOwner() === $this) {
+                $oldProfilePicture->setOwner(null);
+            }
+        }
+
+        return $this;
     }
 }
