@@ -122,10 +122,8 @@ class AnnonceController extends AbstractController
                     if ($picture instanceof UploadedFile) {
                         $ext = $picture->guessExtension();
                         $filename = uniqid('media_', true) . '.' . $ext;
-                        $picture->move(
-                            __DIR__ . 'public\uploads' . DIRECTORY_SEPARATOR,
-                            $filename
-                        );
+                        $picture->move(__DIR__ . 'public\uploads', $filename);
+
                         $picture = new AnnoncePicture();
                         $picture->setAnnonce($annonce);
                         $picture->setFilename($filename);
