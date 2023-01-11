@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -23,9 +24,10 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
-class DefaultController extends AbstractController
+class AnnonceController extends AbstractController
 {
     #[Route('/', name: 'app.home')]
+    // LISTING ANNONCES
     #[Route('/page/{page}', name: 'app.home.page')]
     public function index(
         Request         $request,
@@ -34,10 +36,9 @@ class DefaultController extends AbstractController
         int             $page = 1
     ): Response
     {
-        //$page = (int)$request->get('page', 1);
-
         $limit = (int)$request->get('limit', 5);
 
+        //FILTRES
         $filters = [];
 
         if ($request->get('query') !== null) {
@@ -57,6 +58,7 @@ class DefaultController extends AbstractController
             $filters['price_inf'] = (int)$request->get('price_inf');
         }
 
+        //ORDRE
         $order = [];
         $allowedOrder = ['price', 'title', 'postedDate', 'rating'];
         if ($request->get('order') !== null && str_contains($request->get('order'), ',')) {
@@ -81,7 +83,7 @@ class DefaultController extends AbstractController
             ];
         }
         return $this->render('default/index.html.twig', [
-            'controller_name' => 'DefaultController',
+            'controller_name' => 'UserController',
             'annonceQuery' => $annonces,
             'queryParams' => http_build_query($_GET),
             'actualPage' => $page,
@@ -89,36 +91,11 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    #[Route('/register', name: 'app.register')]
-    public function addUser(
-        EntityManagerInterface      $em,
-        Request                     $request,
-        UserPasswordHasherInterface $passwordHasher,
-    ): Response
-    {
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->get('newsletter')->getData() === true) {
-                $user->setNewsletter(true);
-            } else {
-                $user->setNewsletter(false);
-            }
-            $user->setPassword($passwordHasher->hashPassword($user, $user->getPassword()));
-            $user->setRoles(['ROLE_USER']);
-            $em->persist($user);
-            $em->flush();
-            return $this->redirectToRoute('app.home');
-        }
-        return $this->render('default/register.html.twig', [
-            'formAddUser' => $form->createView(),
-        ]);
-    }
-
+    //AJOUT ANNONCE
     #[Route('/annonce/add/', name: 'app.add')]
     public function addAnnonce(
         EntityManagerInterface $em,
+        KernelInterface        $kernel,
         Request                $request,
     ): Response
     {
@@ -138,10 +115,27 @@ class DefaultController extends AbstractController
 
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
-        $picture = new AnnoncePicture(
-            ''
-        );
         if ($form->isSubmitted() && $form->isValid()) {
+            $pictures = $form->get('pictures')->getData();
+            if (is_array($pictures) && $pictures !== []) {
+                foreach ($pictures as $picture) {
+                    if ($picture instanceof UploadedFile) {
+                        $ext = $picture->guessExtension();
+                        $filename = uniqid('media_', true) . '.' . $ext;
+                        $picture->move(
+                            __DIR__ . 'public\uploads' . DIRECTORY_SEPARATOR,
+                            $filename
+                        );
+                        $picture = new AnnoncePicture();
+                        $picture->setAnnonce($annonce);
+                        $picture->setFilename($filename);
+                        $picture->setAbsolutePath($kernel->getProjectDir() . '\public\uploads' . DIRECTORY_SEPARATOR . $filename);
+                        $picture->setWebPath('\uploads' . DIRECTORY_SEPARATOR);
+                        $em->persist($picture);
+                        $annonce->addPicture($picture);
+                    }
+                }
+            }
             $em->persist($annonce);
             $em->flush();
             return $this->redirectToRoute('app.home');
@@ -152,6 +146,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
+    //AFFICHAGE ANNONCE
     #[Route('/annonce/{id}', name: 'ads.display.simple', requirements: ['id' => '^\d+'])]
     public function displaySimple(
         ExampleService         $exampleService,
@@ -169,7 +164,7 @@ class DefaultController extends AbstractController
         $advertisement = $adService->getAds();
 
         return $this->render('default/ad.display.html.twig', [
-            'controller_name' => 'DefaultController',
+            'controller_name' => 'UserController',
             'seller' => $seller,
             'ad1' => $advertisement[0],
             'ad2' => $advertisement[1],
@@ -181,7 +176,7 @@ class DefaultController extends AbstractController
     public function display(string $cat, int $id): Response
     {
         return $this->render('default/ad.display.html.twig', [
-            'controller_name' => 'DefaultController',
+            'controller_name' => 'UserController',
         ]);
     }
 }

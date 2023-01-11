@@ -22,6 +22,12 @@
                 <div>
                     {{ annonce.description|raw }}
                 </div>
+                <div>
+                    {% for picture in annonce.pictures %}
+                        <img src="{{ asset(picture.webpath . picture.filename ) }}" class="col-12"
+                             style="width:100px;height:100px;object-fit: fill;" alt="Image">
+                    {% endfor %}
+                </div>
                 <div class="col-6">
                     <div class="w-100 mb-4">
                         posté le <b>{{ annonce.postedDate|date('d/M/Y') }}</b>

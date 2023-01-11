@@ -48,6 +48,7 @@ class AnnonceType extends AbstractType
             ->add('pictures', FileType::class, [
                 'label' => 'Annonce pictures',
                 'attr' => array('accept' => 'image/*'),
+                'mapped' => false,
                 'multiple' => true,
                 'label_attr' => ['class' => 'form-label'],
             ])
@@ -55,7 +56,5 @@ class AnnonceType extends AbstractType
                 'label' => 'Post annonce',
                 'attr' => ['class' => 'btn btn-primary'],
             ]);
-
-
     }
 }

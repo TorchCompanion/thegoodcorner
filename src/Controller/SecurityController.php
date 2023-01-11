@@ -40,7 +40,7 @@ class SecurityController extends AbstractController
     public function logout(): Response
     {
         return $this->render('default/login.html.twig', [
-            'controller_name' => 'DefaultController',
+            'controller_name' => 'UserController',
         ]);
     }
 
