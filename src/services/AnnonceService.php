@@ -69,6 +69,11 @@ class AnnonceService
             $qb->andWhere('a.Pictures IS NOT EMPTY');
         }
 
+        if (isset($filters['owner'])) {
+            $qb->andWhere('a.owner = :owner')
+                ->setParameter('owner', $filters['owner']);
+        }
+
         if (isset($order['title'])) {
             $qb->orderBy('a.title', $order['title']);
         }

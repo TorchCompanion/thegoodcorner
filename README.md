@@ -10,11 +10,11 @@ TODO -
 
 ~~5-) ajouter une recherche "photo"~~
 
-6-) Créer la page profil
+~~6-) Créer la page profil~~
 
 7-) Afficher un/des formulaire d'édition de profil si $this->getUser() === $userProfile
 
-8-) afficher listing annonce where a.owner === $userProfile
+~~8-) afficher listing annonce where a.owner === $userProfile~~
 
 ------------------------------------------------------------------------
 CONTROLLER :
@@ -40,10 +40,7 @@ FORMULAIRE :
 TWIG :
 ------
 
-- Modifier champ "Vendeur" dans ad.display.html.twig
 - Créer User.Display
-    - Afficher les annonces de l'utilisateur
-    - Afficher les informations de l'utilisateur
     - Si Display != User, afficher un bouton pour edit
     - Créer User.Edit :
         - Modification des informations de l'utilisateur

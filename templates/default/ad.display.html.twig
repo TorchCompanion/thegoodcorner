@@ -34,7 +34,7 @@
                     </div>
                     <div class="h4">Vendeur</div>
                     <div class="subtitle">
-                        {{ annonce.owner.name }} {{ annonce.owner.lastname }}
+                        <a href="{{ path('user.profil', {'id': annonce.owner.id}) }}">{{ annonce.owner.name }} {{ annonce.owner.lastname }}</a>
                     </div>
                     <div class="contact">
                         <div class="phone">

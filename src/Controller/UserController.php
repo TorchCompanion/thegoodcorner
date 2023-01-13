@@ -50,7 +50,7 @@ class UserController extends AbstractController
                 $ext = $picture->guessExtension();
                 $ds = DIRECTORY_SEPARATOR;
                 $filename = uniqid('media_', true) . '.' . $ext;
-                $webPath = 'uploads';
+                $webPath = 'profiles';
                 $storagePath = $kernel->getProjectDir() . $ds . 'public' . $ds . $webPath;
                 $absolutePath = $storagePath . $ds . $filename;
                 $picture->move($storagePath, $filename);
@@ -78,25 +78,31 @@ class UserController extends AbstractController
         AdService              $adService,
         AnnonceService         $annonceService,
         Request                $request,
-        int                    $id
+        int                    $id,
+        int                    $page = 1
     ): Response
     {
         $user = $em->getRepository(User::class)
             ->findOneBy(['id' => $id]);
+
         if (!$user instanceof User) {
             throw new NotFoundHttpException('User does not exist');
         }
 
-        $qb = $em->createQueryBuilder();
-        $qb
-            ->select('a')
-            ->from(Annonce::class, 'a')
-            ->where('1 = 1')
-            ->leftJoin(User::class, 'u')
-            ->andWhere('a.owner = u.id');
-
-        $annonce = $qb->getQuery()->getResult();
         $advertisement = $adService->getAds();
+
+        try {
+            $annonce = $annonceService->getAnnonces(['owner' => $user], [], $page, 100);
+        } catch (\Throwable $e) {
+            //$e->getCode();
+
+            $annonce = [
+                'results' => [],
+                'count' => 0,
+                'totalPages' => 1,
+            ];
+        }
+
 
         return $this->render('default/user.display.html.twig', [
             'controller_name' => 'UserController',
