@@ -3,6 +3,7 @@
 namespace App\services;
 
 use App\Entity\Annonce;
+use App\Entity\AnnoncePicture;
 use Doctrine\ORM\EntityManagerInterface;
 
 class AnnonceService
@@ -59,6 +60,13 @@ class AnnonceService
         if (isset($filters['price_inf'])) {
             $qb->andWhere('a.price <= :priceinf')
                 ->setParameter('priceinf', $filters['price_inf']);
+        }
+
+        if (isset($filters['hasPicture'])) {
+//            $qb->leftjoin(AnnoncePicture::class, 'p')
+//                ->andWhere('a.pictures IS NOT EMPTY')
+//                ->setParameter('hasPicture', $filters['hasPicture']);
+            $qb->andWhere('a.Pictures IS NOT EMPTY');
         }
 
         if (isset($order['title'])) {

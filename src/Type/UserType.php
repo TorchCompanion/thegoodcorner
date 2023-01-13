@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -40,6 +41,13 @@ class UserType extends AbstractType
             ->add('password', PasswordType::class, [
                 'label' => 'Password',
                 'attr' => ['class' => 'form-control'],
+                'label_attr' => ['class' => 'form-label'],
+            ])
+            ->add('picture', FileType::class, [
+                'label' => 'User picture',
+                'attr' => array('accept' => 'image/*'),
+                'mapped' => false,
+                'multiple' => false,
                 'label_attr' => ['class' => 'form-label'],
             ])
             ->add('newsletter', CheckboxType::class, [

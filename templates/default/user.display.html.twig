@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre profil{% endblock %}
+
+{% block body %}
+    {% include 'inc/header.html.twig' %}
+    <div>
+        <div class="row">
+            <div class="col-12 text-center">
+                <h4>{{ ad1.title }}</h4>
+                <p>{{ ad1.texte }}</p>
+            </div>
+            <div class="col-2 text-center" style="max-height : 900px;">
+                <div class="h5">Nos partenaires</div>
+                <img src="{{ ad2.image }}" alt="{{ ad2.title }}" class="col-12" style="object-fit: fill;">
+            </div>
+
+            <div class="col-8 user-card p-2">
+                <div class="d-flex justify-content-between align-items-center">
+                    {% if app.user.profilePicture is not null %}
+                        <div class="left">
+                            <img src="{{ app.user.profilePicture.webpath }}{{ app.user.profilePicture.filename }}"
+                                 class="col-12"
+                                 style="width:100px;height:100px;object-fit: fill;" alt="Image">
+                        </div>
+                    {% else %}
+                        <div class="left">
+                            <div style="width:100px;height:100px;background-color:lightgray">
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <div class="right">
+                        {{ app.user.name }} {{ app.user.lastname }}
+                    </div>
+                </div>
+                <div class="user_contact w-100 small">
+                    <div class="mt-2">
+                        Email : {{ app.user.email }}
+                    </div>
+                    <div class="mt-2">
+                        Numero de téléphone : {{ app.user.phoneNumber }}
+                    </div>
+                </div>
+
+                <div class="column">
+                    {% if annonceQuery.results|length <= 0 %}
+                        <div class="col-8 mb-2 text-center small p-2">
+                            Aucune annonce trouvée 😔
+                        </div>
+                    {% else %}
+                        {% for annonce in annonceQuery.results %}
+                            <div class="col-8 col-md-6 col-lg-4 mb-2 w-100">
+                                <a href="{{ path('ads.display.simple', {'id': annonce.id}) }}"
+                                   class="card annonce-display">
+                                    <div class="card-body">
+                                        <div class="w-100">
+                                            <div class="annonce-title">
+                                                {{ annonce.title }}
+                                            </div>
+                                        </div>
+                                        <div class="w-100 small text-muted">
+                                            <div class="annonce-info">
+                                                {{ annonce.description|raw }}
+                                            </div>
+                                        </div>
+                                        <div class="small text-muted d-flex align-item-center justify-content-between">
+                                            <div class="left">
+                                                <div class="annonce-info">
+                                                    {{ annonce.postedDate|date("Y-m-d H:i") }}
+                                                </div>
+                                            </div>
+                                            <div class="right">
+                                                <div class="annonce-price">
+                                                    {{ annonce.price }}€
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-item-center justify-content-end">
+                                            <div class="right">
+                                                <div class="annonce-note">
+                                                    Note : {{ annonce.rating }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-2 text-center" style="max-height : 900px;">
+                <div class="h5">Nos partenaires</div>
+                <img src="{{ ad2.image }}" alt="{{ ad2.title }}" class="col-12" style="max-height : 100%">
+            </div>
+        </div>
+    </div>
+
+    {% include 'inc/footer.html.twig' %}
+{% endblock %}
+
+
+{% block javascript_footer %}
+    <!-- coucou -->
+{% endblock %}

@@ -8,7 +8,7 @@ TODO -
 
 ~~4-) ajouter des filtres coherent avec vos entities Annonce~~
 
-5-) ajouter une recherche "photo"
+~~5-) ajouter une recherche "photo"~~
 
 6-) Créer la page profil
 
@@ -20,7 +20,7 @@ TODO -
 CONTROLLER :
 ----------
 
-- ProfileController
+- UserController
     - Form adresse
     - Form user
     - Display user
@@ -28,13 +28,14 @@ CONTROLLER :
 ENTITE :
 --------
 
-- Préparer entité Cart et AnnoncePicture (possibilité bug)
+- Préparer entité Cart
 
 FORMULAIRE :
 ------------
 
 - Finir "AdressType"
-- Ajouter images a AnnonceType
+- Ajout suppression annonce (picture premier)
+- Ajout modification annonce
 
 TWIG :
 ------
@@ -55,4 +56,5 @@ TWIG :
 Idées :
 -------
 Annonce adresse : Champ Utiliser adresse existante->Adresse stocké dans User OU créer une nouvelle adresse
+
 

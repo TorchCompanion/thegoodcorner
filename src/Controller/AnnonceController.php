@@ -58,6 +58,10 @@ class AnnonceController extends AbstractController
             $filters['price_inf'] = (int)$request->get('price_inf');
         }
 
+        if ($request->get('hasPicture') !== null && $request->get('hasPicture') === 'true') {
+            $filters['hasPicture'] = (bool)$request->get('hasPicture');
+        }
+
         //ORDRE
         $order = [];
         $allowedOrder = ['price', 'title', 'postedDate', 'rating'];
@@ -118,17 +122,21 @@ class AnnonceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $pictures = $form->get('pictures')->getData();
             if (is_array($pictures) && $pictures !== []) {
-                foreach ($pictures as $picture) {
-                    if ($picture instanceof UploadedFile) {
-                        $ext = $picture->guessExtension();
+                foreach ($pictures as $file) {
+                    if ($file instanceof UploadedFile) {
+                        $ext = $file->guessExtension();
+                        $ds = DIRECTORY_SEPARATOR;
                         $filename = uniqid('media_', true) . '.' . $ext;
-                        $picture->move(__DIR__ . 'public\uploads', $filename);
+                        $webPath = 'uploads';
+                        $storagePath = $kernel->getProjectDir() . $ds . 'public' . $ds . $webPath;
+                        $absolutePath = $storagePath . $ds . $filename;
+                        $file->move($storagePath, $filename);
 
                         $picture = new AnnoncePicture();
                         $picture->setAnnonce($annonce);
                         $picture->setFilename($filename);
-                        $picture->setAbsolutePath($kernel->getProjectDir() . '\public\uploads' . DIRECTORY_SEPARATOR . $filename);
-                        $picture->setWebPath('\uploads' . DIRECTORY_SEPARATOR);
+                        $picture->setAbsolutePath($absolutePath);
+                        $picture->setWebPath('/' . $webPath . '/'); // pas besoin du DIRECTORY_SEPARATOR le web c'est tjr '/'
                         $em->persist($picture);
                         $annonce->addPicture($picture);
                     }
@@ -162,7 +170,7 @@ class AnnonceController extends AbstractController
         $advertisement = $adService->getAds();
 
         return $this->render('default/ad.display.html.twig', [
-            'controller_name' => 'UserController',
+            'controller_name' => 'AnnonceController',
             'seller' => $seller,
             'ad1' => $advertisement[0],
             'ad2' => $advertisement[1],

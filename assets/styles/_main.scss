@@ -1,0 +1,85 @@
+@import "./inc/_variables.scss";
+
+@import "~bootstrap/scss/bootstrap";
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@300&family=Ubuntu:wght@300;400;500;700&display=swap');
+
+.navbar {
+    background-color: $primary;
+    opacity: 90%;
+    box-shadow: 0 4px 4px $shadow;
+    color: $primary;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    width: 100%;
+    height: 100px;
+    margin-top: 0;
+}
+
+.dropdown-button {
+    width: 5vh;
+    color: $primary;
+}
+
+.card {
+    border: 1px solid $primary;
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+.annonce-title {
+    font-family: $titleH4;
+    font-weight: $titleH4-weight;
+    font-size: $titleH4-size;
+}
+
+.annonce-info {
+    font-family: $text;
+    font-weight: $text-weight;
+    font-size: $text-size;
+}
+
+.annonce-price {
+    font-family: $text;
+    font-weight: 400;
+    font-size: 20px;
+    color: $font;
+}
+
+.annonce-display {
+    transition: background-color 0.5s;
+}
+
+.annonce-display:hover {
+    background-color: $primary;
+    opacity: 80%;
+
+    .annonce-title {
+        color: $extra2;
+    }
+
+    .annonce-info {
+        color: $extra2;
+    }
+
+    .annonce-price {
+        color: $extra2;
+    }
+}
+
+.filters-result {
+    width: 20vh;
+    height: 5vh;
+    background-color: $primary-shadow;
+    border-bottom-style: dashed;
+    border-top-style: solid;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-color: $primary;
+}
+
+.user-card {
+    border: 1px solid $primary;
+    border-radius: 15px;
+}
